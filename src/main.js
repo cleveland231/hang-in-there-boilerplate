@@ -19,7 +19,6 @@ var makePoster = document.querySelector('.make-poster');
 
 
 
-
 // we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
@@ -122,7 +121,7 @@ var savedPosters = [];
 var currentPoster;
 
 // event listeners go here 👇
-window.addEventListener('load', getRandoStuff)
+// window.addEventListener('load', getRandoStuff)
 showRando.addEventListener('click', showRandom)
 // showForm.addEventListener('click', ownPoster)
 takeBack.addEventListener('click', goHome)
@@ -132,10 +131,17 @@ showForm.addEventListener('click', function() {showHide(postForm,mainPost)})
 showSaved.addEventListener('click', function() {showHide(savedPostersPage,mainPost)})
 
 //Make a button click that takes me to savedPostersPage
+
+
 makePoster.addEventListener('click',function() {
-getVal()
-submitForm()
+// getVal()
+stopReset()
+newArray(imgURL.value, newTitle.value, newQuote.value)
+pushInfo(imgURL.value, newTitle.value, newQuote.value)
+showPoster(currentPoster)
 });
+
+savePoster.addEventListener('click', addSavedPoster)
 
 
 // functions and event handlers go here 👇
@@ -160,33 +166,51 @@ function goHome() {
   postForm.classList.add('hidden')
 }
 
+
+
 function getRandoStuff() {
-  currentPoster = new Poster(
-    pImg.src = images[getRandomIndex(images)],
-    postTitle.innerText = titles[getRandomIndex(titles)],
-    pQuote.innerText = quotes[getRandomIndex(quotes)]
-  )
+  currentPoster = new Poster(images[getRandomIndex(images)],
+    titles[getRandomIndex(titles)], quotes[getRandomIndex(quotes)])
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
 };
 
-
 function showHide(arg1, arg2) {
-  arg1.classList.remove('hidden')
-  arg2.classList.add('hidden')
+  arg1.classList.toggle('hidden')
+  arg2.classList.toggle('hidden')
 }
 
-function getVal() {
-var newPoster = new Poster(userImgURL, userNewTitle, userNewQuote)
-submitForm()
-}
-
-function submitForm() {
+function stopReset() {
   event.preventDefault();
 }
 
-
-function pushInfo() {
-  var pushPoster = new Poster(imgURL.value, userNewTitle.value, userNewQuote.value)
-  console.log(pushPoster)
-  submitForm()
-  showHide()
+function showPoster(currentPoster){
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
 }
+
+function pushInfo(userImgURL, userNewTitle, userNewQuote) {
+  currentPoster = new Poster(userImgURL, userNewTitle, userNewQuote)
+  images.push(imgURL.value)
+  titles.push(newTitle.value)
+  quotes.push(newQuote.value)
+  showHide(postForm, mainPost)
+}
+
+
+function newArray(userImgURL, userNewTitle, userNewQuote) {
+  images.unshift(userImgURL);
+  titles.unshift(userNewTitle);
+  quotes.unshift(userNewQuote);
+}
+
+// make a function for pushing make your own into the savedPosters
+function addSavedPoster() {
+  if (!savedPosters.includes(currentPoster) ) {
+      savedPosters.push(currentPoster)
+  }
+};
+
+getRandoStuff();
