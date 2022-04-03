@@ -10,18 +10,13 @@ var mainPost = document.querySelector('.main-poster');
 var takeBack = document.querySelector('.show-main');
 var goMain = document.querySelector('.back-to-main');
 var savedPostersPage = document.querySelector('.saved-posters');
-
 var imgURL = document.getElementById('poster-image-url');
 var newTitle = document.getElementById('poster-title');
 var newQuote = document.getElementById('poster-quote');
 var makePoster = document.querySelector('.make-poster');
-
 var savedPosterGrid = document.querySelector('.saved-posters');
 
 
-
-
-// we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -122,10 +117,9 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 
-// event listeners go here 👇
+
 window.addEventListener('load', getRandoStuff)
 buttonShowRando.addEventListener('click', showRandom)
-// showForm.addEventListener('click', ownPoster)
 takeBack.addEventListener('click', goHome)
 goMain.addEventListener('click', goHome)
 buttonShowForm.addEventListener('click', function() {showHide(postForm,mainPost)})
@@ -134,9 +128,6 @@ buttonShowSaved.addEventListener('click', function() {
   makeGrid()
   stopReset()
 })
-
-//Make a button click that takes me to savedPostersPage
-
 
 makePoster.addEventListener('click',function() {
 stopReset()
@@ -147,11 +138,6 @@ showPoster(currentPoster)
 
 buttonSavePoster.addEventListener('click', addSavedPoster)
 
-
-
-// functions and event handlers go here 👇
-
-// (we've provided one for you to get you started)!
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
@@ -170,8 +156,6 @@ function goHome() {
   savedPostersPage.classList.add('hidden')
   postForm.classList.add('hidden')
 }
-
-
 
 function getRandoStuff() {
   currentPoster = new Poster(images[getRandomIndex(images)],
@@ -217,7 +201,7 @@ function addSavedPoster() {
       savedPosters.push(currentPoster)
   }
 };
-//
+
 
 function makeGrid() {
   for (var i = 0; i < savedPosters.length; i++) {
@@ -229,4 +213,3 @@ function makeGrid() {
     </article>`
   }
 }
-//
