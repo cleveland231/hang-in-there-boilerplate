@@ -34,7 +34,7 @@
 
 ## Deployed Page
 
-Visit our published Hang In There Site! [here](file:///Users/joshuadeloach/turing/mod_1/paired-projects/hang-in-there-boilerplate/index.html?poster-image-url=&poster-title=Smaller+brain%3F&poster-quote=uwu)
+Visit our published Hang In There Site! [here](https://jdeloach03.github.io/hang-in-there-boilerplate/)
 
 ## Possible Future Extensions
   - It would be cool to have a better functioning site, getting through all the iterations.
