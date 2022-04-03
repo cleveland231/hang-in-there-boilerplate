@@ -1,4 +1,25 @@
-// query selector variables go here 👇
+var pImg = document.querySelector('.poster-img');
+var postTitle = document.querySelector('.poster-title');
+var pQuote = document.querySelector('.poster-quote');
+var savePoster = document.querySelector('.save-poster');
+var showSaved = document.querySelector('.show-saved');
+var showRando = document.querySelector('.show-random');
+var showForm = document.querySelector('.show-form');
+var postForm = document.querySelector('.poster-form');
+var mainPost = document.querySelector('.main-poster');
+var takeBack = document.querySelector('.show-main');
+var goMain = document.querySelector('.back-to-main');
+var savedPostersPage = document.querySelector('.saved-posters');
+
+var imgURL = document.getElementById('poster-image-url');
+var newTitle = document.getElementById('poster-title');
+var newQuote = document.getElementById('poster-quote');
+var makePoster = document.querySelector('.make-poster');
+
+
+
+
+
 
 // we've provided you with some data to work with 👇
 var images = [
@@ -59,7 +80,7 @@ var titles = [
   "wisdom"
 ];
 var quotes = [
-  "Don’t downgrade your dream just to fit your reality, upgrade your conviction to match your destiny.",
+  "Don't downgrade your dream just to fit your reality, upgrade your conviction to match your destiny.",
   "You are braver than you believe, stronger than you seem and smarter than you think.",
   "You are confined only by the walls you build yourself.",
   "The one who has confidence gains the confidence of others.",
@@ -86,7 +107,7 @@ var quotes = [
   "It is never too late to be what you might have been.",
   "Happiness often sneaks in through a door you didn't know you left open.",
   "We must be willing to let go of the life we planned so as to have the life that is waiting for us.",
-  "Never limit yourself because of others’ limited imagination; never limit others because of your own limited imagination.",
+  "Never limit yourself because of others' limited imagination; never limit others because of your own limited imagination.",
   "Be the change that you wish to see in the world.",
   "Let us make our future now, and let us make our dreams tomorrow's reality.",
   "You don't always need a plan. Sometimes you just need to breathe, trust, let go, and see what happens.",
@@ -102,10 +123,99 @@ var savedPosters = [];
 var currentPoster;
 
 // event listeners go here 👇
+// window.addEventListener('load', getRandoStuff)
+showRando.addEventListener('click', showRandom)
+// showForm.addEventListener('click', ownPoster)
+takeBack.addEventListener('click', goHome)
+goMain.addEventListener('click', goHome)
+// showSaved.addEventListener('click', )
+showForm.addEventListener('click', function() {showHide(postForm,mainPost)})
+showSaved.addEventListener('click', function() {showHide(savedPostersPage,mainPost)})
+
+savePoster.addEventListener('click', addSavedPoster)
+
+//Make a button click that takes me to savedPostersPage
+
+
+makePoster.addEventListener('click',function() {
+// getVal()
+stopReset()
+newArray(imgURL.value, newTitle.value, newQuote.value)
+pushInfo(imgURL.value, newTitle.value, newQuote.value)
+showPoster(currentPoster)
+});
+
 
 // functions and event handlers go here 👇
+
 // (we've provided one for you to get you started)!
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
+
+function showRandom() {
+  getRandoStuff()
+}
+
+function ownPoster() {
+  showHide(postForm, mainPost )
+}
+
+function goHome() {
+  mainPost.classList.remove('hidden')
+  savedPostersPage.classList.add('hidden')
+  postForm.classList.add('hidden')
+}
+
+function getRandoStuff() {
+  currentPoster = new Poster(images[getRandomIndex(images)],
+    titles[getRandomIndex(titles)], quotes[getRandomIndex(quotes)])
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
+};
+
+function showHide(arg1, arg2) {
+  arg1.classList.toggle('hidden')
+  arg2.classList.toggle('hidden')
+}
+
+function stopReset() {
+  event.preventDefault();
+}
+
+function showPoster(currentPoster){
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
+}
+
+function pushInfo(userImgURL, userNewTitle, userNewQuote) {
+  currentPoster = new Poster(userImgURL, userNewTitle, userNewQuote)
+  images.push(imgURL.value)
+  titles.push(newTitle.value)
+  quotes.push(newQuote.value)
+  showHide(postForm, mainPost)
+}
+
+
+function newArray(userImgURL, userNewTitle, userNewQuote) {
+  images.unshift(userImgURL);
+  titles.unshift(userNewTitle);
+  quotes.unshift(userNewQuote);
+}
+
+function addSavedPoster() {
+  if (!savedPosters.includes(currentPoster) ) {
+      savedPosters.push(currentPoster)
+  }
+};
+
+/*When a user clicks the “Save This Poster” button, the current main poster will be added to the savedPosters array.
+If a user clicks the “Save This Poster” more than once on a single poster, it will still only be saved once (no duplicates)
+When a user clicks the “Show Saved Posters” button, we should see the saved posters section
+All the posters in the savedPosters array should be displayed in the saved posters grid section
+*/
+
+getRandoStuff();
