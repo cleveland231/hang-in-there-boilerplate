@@ -1,6 +1,22 @@
-// query selector variables go here 👇
+var pImg = document.querySelector('.poster-img');
+var postTitle = document.querySelector('.poster-title');
+var pQuote = document.querySelector('.poster-quote');
+var buttonSavePoster = document.querySelector('.save-poster');
+var buttonShowSaved = document.querySelector('.show-saved');
+var buttonShowRando = document.querySelector('.show-random');
+var buttonShowForm = document.querySelector('.show-form');
+var postForm = document.querySelector('.poster-form');
+var mainPost = document.querySelector('.main-poster');
+var takeBack = document.querySelector('.show-main');
+var goMain = document.querySelector('.back-to-main');
+var savedPostersPage = document.querySelector('.saved-posters');
+var imgURL = document.getElementById('poster-image-url');
+var newTitle = document.getElementById('poster-title');
+var newQuote = document.getElementById('poster-quote');
+var makePoster = document.querySelector('.make-poster');
+var savedPosterGrid = document.querySelector('.saved-posters');
 
-// we've provided you with some data to work with 👇
+
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -101,11 +117,99 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 
-// event listeners go here 👇
 
-// functions and event handlers go here 👇
-// (we've provided one for you to get you started)!
+window.addEventListener('load', getRandoStuff)
+buttonShowRando.addEventListener('click', showRandom)
+takeBack.addEventListener('click', goHome)
+goMain.addEventListener('click', goHome)
+buttonShowForm.addEventListener('click', function() {showHide(postForm,mainPost)})
+buttonShowSaved.addEventListener('click', function() {
+  showHide(savedPostersPage,mainPost)
+  makeGrid()
+  stopReset()
+})
+
+makePoster.addEventListener('click',function() {
+stopReset()
+newArray(imgURL.value, newTitle.value, newQuote.value)
+pushInfo(imgURL.value, newTitle.value, newQuote.value)
+showPoster(currentPoster)
+});
+
+buttonSavePoster.addEventListener('click', addSavedPoster)
+
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
+
+function showRandom() {
+  getRandoStuff()
+}
+
+function ownPoster() {
+  showHide(postForm, mainPost )
+}
+
+function goHome() {
+  mainPost.classList.remove('hidden')
+  savedPostersPage.classList.add('hidden')
+  postForm.classList.add('hidden')
+}
+
+function getRandoStuff() {
+  currentPoster = new Poster(images[getRandomIndex(images)],
+    titles[getRandomIndex(titles)], quotes[getRandomIndex(quotes)])
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
+};
+
+function showHide(arg1, arg2) {
+  arg1.classList.toggle('hidden')
+  arg2.classList.toggle('hidden')
+}
+
+function stopReset() {
+  event.preventDefault();
+}
+
+function showPoster(currentPoster){
+  pImg.src = currentPoster.imageURL
+  postTitle.innerText = currentPoster.title
+  pQuote.innerText = currentPoster.quote
+}
+
+function pushInfo(userImgURL, userNewTitle, userNewQuote) {
+  currentPoster = new Poster(userImgURL, userNewTitle, userNewQuote)
+  images.push(imgURL.value)
+  titles.push(newTitle.value)
+  quotes.push(newQuote.value)
+  showHide(postForm, mainPost)
+}
+
+
+function newArray(userImgURL, userNewTitle, userNewQuote) {
+  images.unshift(userImgURL);
+  titles.unshift(userNewTitle);
+  quotes.unshift(userNewQuote);
+}
+
+
+function addSavedPoster() {
+  if (!savedPosters.includes(currentPoster) ) {
+      savedPosters.push(currentPoster)
+  }
+};
+
+
+function makeGrid() {
+  for (var i = 0; i < savedPosters.length; i++) {
+    savedPostersPage.innerHTML +=
+    `<article class="mini-poster">
+      <img class="poster-img" src="${savedPosters[i].imageURL}" alt="nothin' to see here">
+      <h2 class="poster-title">${savedPosters[i].title}</h2>
+      <h4 class="poster-quote">${savedPosters[i].quote}</h4>
+    </article>`
+  }
+}
